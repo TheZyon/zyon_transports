@@ -1,5 +1,3 @@
 package model;
 
-public class Stato {
-
-}
+public enum Stato {IN_SERVIZIO, IN_MANUTENZIONE}

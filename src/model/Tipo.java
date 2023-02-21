@@ -1,5 +1,3 @@
 package model;
 
-public class Tipo {
-
-}
+public enum Tipo {TRAM,AUTOBUS}

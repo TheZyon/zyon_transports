@@ -28,7 +28,7 @@ public abstract class Emittente {
 	private List<Biglietto> biglietti;
 	
 	//convenience method to manage biglietti
-		public void add(Biglietto b) {
+	public void add(Biglietto b) {
 			if(biglietti==null) biglietti=new ArrayList<Biglietto>();
 			biglietti.add(b);
 		}
