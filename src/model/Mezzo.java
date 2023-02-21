@@ -1,10 +1,15 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +29,22 @@ public class Mezzo {
 	private int capienza;
 	@Column
 	private Stato stato;
+	
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "mezzo")
+	private List<ConvalidaTessera> convalide;
+	//convenience method to manage convalide
+	public void add(ConvalidaTessera c) {
+		if(convalide==null) convalide=new ArrayList<ConvalidaTessera>();
+		convalide.add(c);
+	}
+	
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "mezzo")
+	private List<StatoMezzo> stati_mezzo;
+	//convenience method to manage stati_mezzo
+	public void add(StatoMezzo s) {
+		if(stati_mezzo==null) stati_mezzo=new ArrayList<StatoMezzo>();
+		stati_mezzo.add(s);
+	}
 
 
 	public Mezzo() {}
