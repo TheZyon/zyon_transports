@@ -1,5 +1,6 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.Type;
@@ -12,6 +13,7 @@ public class Distributore extends Emittente {
 	
 	
 	@Type(type = "utils.EnumTypePostgreSql")
+	@Column(name="stato_emittente")
 	private Attivo attivo;
 	
 	public Distributore() {}

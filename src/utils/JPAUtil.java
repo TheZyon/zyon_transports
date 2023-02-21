@@ -9,7 +9,7 @@ public class JPAUtil {
 	static {
 		try {
 			entityManagerFactory = Persistence
-					.createEntityManagerFactory("ProgettoW3");
+					.createEntityManagerFactory("zyon_transports");
 		} catch (Throwable ex) {
 			System.err.println("Initial EntityManagerFactory creation failed."
 					+ ex);

@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="emittenti")
+@Table(name="emittente")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Emittente {
 
@@ -24,7 +24,7 @@ public abstract class Emittente {
 	
 	
 
-	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "biglietto")
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "emittente")
 	private List<Biglietto> biglietti;
 	
 	//convenience method to manage biglietti
