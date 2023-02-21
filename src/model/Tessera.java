@@ -44,9 +44,21 @@ public class Tessera {
 	private Utente utente;
 	
 	
+	
+	
+	
 	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="id_emittente")
 	private Emittente emittente;
+	
+	
+	
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "tessera")
+	private List<Abbonamento> abbonamenti;
+	public void addAbbonamento(Abbonamento a) {
+		if(abbonamenti==null) abbonamenti=new ArrayList<Abbonamento>();
+		abbonamenti.add(a);
+	}
 	
 	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "tessera")
 	private List<ConvalidaTessera> convalide;

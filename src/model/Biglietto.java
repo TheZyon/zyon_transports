@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -35,6 +36,8 @@ public class Biglietto {
 	@Column
 	private boolean vidimato;
 	
+	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "biglietto")
+	private Vidimazione vidimazione;
 	public Biglietto() {}
 
 	public Biglietto(Emittente emittente, Utente utente, Date data_erogazione, boolean vidimato) {

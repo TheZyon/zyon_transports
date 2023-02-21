@@ -22,8 +22,14 @@ public abstract class Emittente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "emittente")
+	private List<Abbonamento> abbonamenti;
+	public void addAbbonamento(Abbonamento a) {
+		if(abbonamenti==null) abbonamenti=new ArrayList<Abbonamento>();
+		abbonamenti.add(a);
+	}
 	
-
+	
 	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "emittente")
 	private List<Biglietto> biglietti;
 	

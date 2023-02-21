@@ -41,6 +41,10 @@ public class Mezzo {
 	private List<Arrivo> arrivi;
 	
 	
+	//mapping con vidimazione
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "mezzo")
+	private List<Vidimazione> vidimazioni;
+	
 	//mapping con stato_mezzo
 	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "mezzo")
 	private List<StatoMezzo> stati_mezzo;
