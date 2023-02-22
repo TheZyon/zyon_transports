@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "stato_mezzo")
 public class StatoMezzo {
@@ -24,8 +26,11 @@ public class StatoMezzo {
 	@JoinColumn(name="id_mezzo")
 	private Mezzo mezzo;
 	
-	@Column
+	@Type(type = "utils.EnumTypePostgreSql")
+	@Column(name="stato")
 	private Stato stato;
+	
+	
 	@Column
 	private Date data_inizio;
 	@Column

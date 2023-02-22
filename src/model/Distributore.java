@@ -2,6 +2,8 @@ package model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import org.hibernate.annotations.Type;
 
@@ -11,7 +13,7 @@ public class Distributore extends Emittente {
 	
 	
 	
-	
+	@Enumerated(EnumType.STRING)
 	@Type(type = "utils.EnumTypePostgreSql")
 	@Column(name="stato_emittente")
 	private Attivo attivo;

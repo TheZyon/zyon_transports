@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalTime;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 public class Tratta {
 
 	@Id
-	@GeneratedValue 
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column
@@ -28,7 +29,7 @@ public class Tratta {
 	@Column
 	private String capolinea;
 	@Column
-	private LocalTime tempo_medio; //vedere la giusta Classe
+	private Time tempo_medio; //vedere la giusta Classe
 	@Column
 	private int ordine;
 
@@ -54,7 +55,7 @@ public class Tratta {
 	
 	//Constructors
 	public Tratta() {}
-	public Tratta(String partenza, String capolinea, LocalTime tempo_medio, int ordine) {
+	public Tratta(String partenza, String capolinea, Time tempo_medio, int ordine) {
 		super();
 		this.partenza = partenza;
 		this.capolinea = capolinea;
@@ -81,10 +82,10 @@ public class Tratta {
 	public void setCapolinea(String capolinea) {
 		this.capolinea = capolinea;
 	}
-	public LocalTime getTempo_medio() {
+	public Time getTempo_medio() {
 		return tempo_medio;
 	}
-	public void setTempo_medio(LocalTime tempo_medio) {
+	public void setTempo_medio(Time tempo_medio) {
 		this.tempo_medio = tempo_medio;
 	}
 	public int getOrdine() {

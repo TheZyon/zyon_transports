@@ -72,15 +72,15 @@ public class DAO <T> {
 	
 	//update 
 	
-		public void merge(T t) {
+	public void merge(T t) {
 			em.getTransaction().begin();
 			em.merge(t);
 			em.getTransaction().commit();
 		}
 
 
-		//delete
-		public void delete(T t) throws Exception {
+	//delete
+	public void delete(T t) throws Exception {
 			
 			
 			em.getTransaction().begin();
