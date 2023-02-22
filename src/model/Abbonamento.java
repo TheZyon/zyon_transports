@@ -47,14 +47,13 @@ public class Abbonamento {
 	public Abbonamento() {}
 
 
-	public Abbonamento(Date data_erogazione, Emittente emittente, Tessera tessera, Periodo periodo,
-			Date data_scadenza) {
+	public Abbonamento(Date data_erogazione, Emittente emittente, Tessera tessera, Periodo periodo) {
 		super();
 		this.data_erogazione = data_erogazione;
 		this.emittente = emittente;
 		this.tessera = tessera;
 		this.periodo = periodo;
-		this.data_scadenza = data_scadenza;
+		this.data_scadenza = Date.valueOf(data_erogazione.toLocalDate().plusDays(30));
 	}
 
 

@@ -71,10 +71,10 @@ public class Tessera {
 	
 	public Tessera() {}
 
-	public Tessera(Date data_erogazione, Date data_scadenza,Emittente emittente,  Utente utente) {
+	public Tessera(Date data_erogazione,Emittente emittente,  Utente utente) {
 		super();
 		this.data_erogazione = data_erogazione;
-		this.data_scadenza = data_scadenza;
+		this.data_scadenza = Date.valueOf(data_erogazione.toLocalDate().plusYears(1));
 		this.utente = utente;
 		this.emittente=emittente;
 	}
