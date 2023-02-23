@@ -48,7 +48,7 @@ public class Mezzo {
 		convalide.add(c);
 	}
 	
-	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="tappa")
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="mezzo")
 	private List<Arrivo> arrivi;
 	
 	//mapping *-* con tratta

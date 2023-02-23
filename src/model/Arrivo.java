@@ -1,22 +1,26 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Time;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="arrivo")
+@NamedQuery(name="getArriviByMezzo", query = "SELECT a FROM Arrivo a WHERE a.mezzo= :mezzino  ORDER BY a.data")
+
 public class Arrivo {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -25,13 +29,13 @@ public class Arrivo {
 	
 	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="id_tappa")
-	private Mezzo tappa;
+	private Tappa tappa;
 	@Column
-	private Date data;
+	private Time data;
 	
 	public Arrivo() {}
 
-	public Arrivo(Mezzo mezzo, Mezzo tappa, Date data) {
+	public Arrivo(Mezzo mezzo, Tappa tappa, Time data) {
 		super();
 		this.mezzo = mezzo;
 		this.tappa = tappa;
@@ -54,19 +58,19 @@ public class Arrivo {
 		this.mezzo = mezzo;
 	}
 
-	public Mezzo getTappa() {
+	public Tappa getTappa() {
 		return tappa;
 	}
 
-	public void setTappa(Mezzo tappa) {
+	public void setTappa(Tappa tappa) {
 		this.tappa = tappa;
 	}
 
-	public Date getData() {
+	public Time getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(Time data) {
 		this.data = data;
 	}
 

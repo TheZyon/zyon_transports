@@ -12,9 +12,9 @@ import utils.JPAUtil;
 import utils.NoSuchElementInDBException;
 
 public class DAO <T> {
-	EntityManagerFactory emf;
-	EntityManager em;
-	Logger log = LoggerFactory.getLogger(DAO.class);
+	private EntityManagerFactory emf;
+	private EntityManager em;
+	private Logger log = LoggerFactory.getLogger(DAO.class);
 	public DAO() {
 		emf= JPAUtil.getEntityManagerFactory();
 		em=emf.createEntityManager();
@@ -69,7 +69,6 @@ public class DAO <T> {
 	} 
 	
 	
-	
 	//update 
 	
 	public void merge(T t) {
@@ -90,6 +89,8 @@ public class DAO <T> {
 			em.getTransaction().commit();
 		}
 		
-	
+	public EntityManager getEntityManager() {
+		return em;
+	}
 	
 }

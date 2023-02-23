@@ -4,17 +4,20 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "composizione")
+@NamedQuery(name="getComposizioniByTratta", query="SELECT c FROM Composizione c WHERE c.tratta=:tratta")
 public class Composizione {
 
 	@Id
-	@GeneratedValue 
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
