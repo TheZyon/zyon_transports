@@ -31,7 +31,7 @@ public class Utente {
 	@OneToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "utente")
 	private Tessera tessera;
 	
-	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "utente")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
 	List<Biglietto> biglietti;
 	
 	//convenience method to manage biglietti

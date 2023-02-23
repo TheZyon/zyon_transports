@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,7 +31,7 @@ public class Biglietto {
 	private Utente utente;
 	
 	@Column
-	private Date data_erogazione;
+	private Timestamp data_erogazione;
 	
 	@Column
 	private boolean vidimato;
@@ -40,7 +40,7 @@ public class Biglietto {
 	private Vidimazione vidimazione;
 	public Biglietto() {}
 
-	public Biglietto(Emittente emittente, Utente utente, Date data_erogazione, boolean vidimato) {
+	public Biglietto(Emittente emittente, Utente utente, Timestamp data_erogazione, boolean vidimato) {
 		super();
 		this.emittente = emittente;
 		this.utente = utente;
@@ -64,11 +64,11 @@ public class Biglietto {
 		this.utente = utente;
 	}
 
-	public Date getData_erogazione() {
+	public Timestamp getData_erogazione() {
 		return data_erogazione;
 	}
 
-	public void setData_erogazione(Date data_erogazione) {
+	public void setData_erogazione(Timestamp data_erogazione) {
 		this.data_erogazione = data_erogazione;
 	}
 

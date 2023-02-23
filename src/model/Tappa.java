@@ -22,10 +22,10 @@ public class Tappa {
 	@Column
 	private String nome;
 	
-	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="tappa")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="tappa")
 	private List<Composizione> composizioni;
 
-	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="tappa")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="tappa")
 	private List<Arrivo>arrivi;
 	
 	

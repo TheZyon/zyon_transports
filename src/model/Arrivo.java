@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="arrivo")
 @NamedQuery(name="getArriviByMezzo", query = "SELECT a FROM Arrivo a WHERE a.mezzo= :mezzino  ORDER BY a.data")
-
+@NamedQuery(name="getArriviByMezzo&TimeInterval", query="SELECT a FROM Arrivo a WHERE a.mezzo= :mezzino AND a.data BETWEEN :data1 AND :data2 ORDER BY a.data")
 public class Arrivo {
 
 	@Id
@@ -31,11 +31,11 @@ public class Arrivo {
 	@JoinColumn(name="id_tappa")
 	private Tappa tappa;
 	@Column
-	private Time data;
+	private Timestamp data;
 	
 	public Arrivo() {}
 
-	public Arrivo(Mezzo mezzo, Tappa tappa, Time data) {
+	public Arrivo(Mezzo mezzo, Tappa tappa, Timestamp data) {
 		super();
 		this.mezzo = mezzo;
 		this.tappa = tappa;
@@ -66,11 +66,11 @@ public class Arrivo {
 		this.tappa = tappa;
 	}
 
-	public Time getData() {
+	public Timestamp getData() {
 		return data;
 	}
 
-	public void setData(Time data) {
+	public void setData(Timestamp data) {
 		this.data = data;
 	}
 

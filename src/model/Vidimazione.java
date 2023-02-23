@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,13 +29,13 @@ public class Vidimazione {
 	private Mezzo mezzo;
 	
 	@Column
-	private Date data;
+	private Timestamp data;
 	
 	
 	public Vidimazione() {}
 
 
-	public Vidimazione(Biglietto biglietto, Mezzo mezzo, Date data) {
+	public Vidimazione(Biglietto biglietto, Mezzo mezzo, Timestamp data) {
 		super();
 		this.biglietto = biglietto;
 		this.mezzo = mezzo;
@@ -73,12 +73,12 @@ public class Vidimazione {
 	}
 
 
-	public Date getData() {
+	public Timestamp getData() {
 		return data;
 	}
 
 
-	public void setData(Date data) {
+	public void setData(Timestamp data) {
 		this.data = data;
 	}
 

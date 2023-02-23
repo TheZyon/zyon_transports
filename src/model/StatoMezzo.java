@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,13 +32,13 @@ public class StatoMezzo {
 	
 	
 	@Column
-	private Date data_inizio;
+	private Timestamp data_inizio;
 	@Column
-	private Date data_fine;
+	private Timestamp data_fine;
 	
 	public StatoMezzo() {}
 	
-	public StatoMezzo(Mezzo mezzo, Stato stato, Date data_inizio, Date data_fine) {
+	public StatoMezzo(Mezzo mezzo, Stato stato, Timestamp data_inizio, Timestamp data_fine) {
 		super();
 		this.mezzo = mezzo;
 		this.stato = stato;
@@ -58,11 +58,11 @@ public class StatoMezzo {
 		return stato;
 	}
 
-	public Date getData_inizio() {
+	public Timestamp getData_inizio() {
 		return data_inizio;
 	}
 
-	public Date getData_fine() {
+	public Timestamp getData_fine() {
 		return data_fine;
 	}
 
@@ -74,11 +74,11 @@ public class StatoMezzo {
 		this.stato = stato;
 	}
 
-	public void setData_inizio(Date data_inizio) {
+	public void setData_inizio(Timestamp data_inizio) {
 		this.data_inizio = data_inizio;
 	}
 
-	public void setData_fine(Date data_fine) {
+	public void setData_fine(Timestamp data_fine) {
 		this.data_fine = data_fine;
 	}
 

@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +25,7 @@ public class Abbonamento {
 	private int id;
 	
 	@Column
-	private Date data_erogazione;
+	private Timestamp data_erogazione;
 	
 	@ManyToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="id_emittente")
@@ -41,14 +41,14 @@ public class Abbonamento {
 	private Periodo periodo;
 	
 	@Column
-	private Date data_scadenza;
+	private Timestamp data_scadenza;
 	
 	
 	public Abbonamento() {}
 
 
-	public Abbonamento(Date data_erogazione, Emittente emittente, Tessera tessera, Periodo periodo,
-			Date data_scadenza) {
+	public Abbonamento(Timestamp data_erogazione, Emittente emittente, Tessera tessera, Periodo periodo,
+			Timestamp data_scadenza) {
 		super();
 		this.data_erogazione = data_erogazione;
 		this.emittente = emittente;
@@ -68,12 +68,12 @@ public class Abbonamento {
 	}
 
 
-	public Date getData_erogazione() {
+	public Timestamp getData_erogazione() {
 		return data_erogazione;
 	}
 
 
-	public void setData_erogazione(Date data_erogazione) {
+	public void setData_erogazione(Timestamp data_erogazione) {
 		this.data_erogazione = data_erogazione;
 	}
 
@@ -108,12 +108,12 @@ public class Abbonamento {
 	}
 
 
-	public Date getData_scadenza() {
+	public Timestamp getData_scadenza() {
 		return data_scadenza;
 	}
 
 
-	public void setData_scadenza(Date data_scadenza) {
+	public void setData_scadenza(Timestamp data_scadenza) {
 		this.data_scadenza = data_scadenza;
 	}
 

@@ -30,7 +30,7 @@ public abstract class Emittente {
 	}
 	
 	
-	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "emittente")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "emittente")
 	private List<Biglietto> biglietti;
 	
 	//convenience method to manage biglietti

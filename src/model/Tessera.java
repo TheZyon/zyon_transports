@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +35,9 @@ public class Tessera {
 	private int id;
 
 	@Column
-	private Date data_erogazione;
+	private Timestamp data_erogazione;
 	@Column
-	private Date data_scadenza;
+	private Timestamp data_scadenza;
 	
 	@OneToOne(cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="id_utente")
@@ -71,7 +71,7 @@ public class Tessera {
 	
 	public Tessera() {}
 
-	public Tessera(Date data_erogazione, Date data_scadenza,Emittente emittente,  Utente utente) {
+	public Tessera(Timestamp data_erogazione, Timestamp data_scadenza,Emittente emittente,  Utente utente) {
 		super();
 		this.data_erogazione = data_erogazione;
 		this.data_scadenza = data_scadenza;
@@ -87,19 +87,19 @@ public class Tessera {
 		this.id = id;
 	}
 
-	public Date getData_erogazione() {
+	public Timestamp getData_erogazione() {
 		return data_erogazione;
 	}
 
-	public void setData_erogazione(Date data_erogazione) {
+	public void setData_erogazione(Timestamp data_erogazione) {
 		this.data_erogazione = data_erogazione;
 	}
 
-	public Date getData_scadenza() {
+	public Timestamp getData_scadenza() {
 		return data_scadenza;
 	}
 
-	public void setData_scadenza(Date data_scadenza) {
+	public void setData_scadenza(Timestamp data_scadenza) {
 		this.data_scadenza = data_scadenza;
 	}
 

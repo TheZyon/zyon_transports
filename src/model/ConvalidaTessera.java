@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,11 +29,11 @@ public class ConvalidaTessera {
 	private Mezzo mezzo;
 	
 	@Column
-	private Date data;
+	private Timestamp data;
 	
 	public ConvalidaTessera() {}
 
-	public ConvalidaTessera(Tessera tessera, Mezzo mezzo, Date data) {
+	public ConvalidaTessera(Tessera tessera, Mezzo mezzo, Timestamp data) {
 		super();
 		this.tessera = tessera;
 		this.mezzo = mezzo;
@@ -52,7 +52,7 @@ public class ConvalidaTessera {
 		return mezzo;
 	}
 
-	public Date getData() {
+	public Timestamp getData() {
 		return data;
 	}
 
@@ -64,7 +64,7 @@ public class ConvalidaTessera {
 		this.mezzo = mezzo;
 	}
 
-	public void setData(Date data) {
+	public void setData(Timestamp data) {
 		this.data = data;
 	}
 

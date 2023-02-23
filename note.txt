@@ -1,0 +1,20 @@
+
+
+
+
+TESTS
+
+CREATE
+• create UTENTE, TESSERA, EMITTENTE, BIGLIETTO, MEZZO, STATI MEZZO,  TRATTA, TAPPA √
+
+
+
+
+test isTappaInTratta √
+
+
+
+TASKS
+
+• ottenere quante volte un mezzo passa per una tappa in intervallo temporale √
+• ottenere durata delle percorrenze effettive delle tratte di un mezzo, da parte del mezzo in un intervallo temporale √  
