@@ -9,11 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="vidimazione")
+@NamedQuery(name="vidimazioniPerMezzo&PerIntervalloTempo", 
+query="SELECT v FROM Vidimazione v WHERE v.mezzo = :m AND v.data BETWEEN :d1 AND :d2 ORDER BY v.data")
 public class Vidimazione {
 
 	@Id

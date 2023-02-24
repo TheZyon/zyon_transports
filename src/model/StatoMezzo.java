@@ -5,17 +5,21 @@ import java.sql.Timestamp;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "stato_mezzo")
+@NamedQuery(name="getStatiMezzoByMezzo", query = "SELECT s FROM StatoMezzo s WHERE s.mezzo = :m")
 public class StatoMezzo {
 	
 	@Id
@@ -26,6 +30,7 @@ public class StatoMezzo {
 	@JoinColumn(name="id_mezzo")
 	private Mezzo mezzo;
 	
+	@Enumerated(EnumType.STRING)
 	@Type(type = "utils.EnumTypePostgreSql")
 	@Column(name="stato")
 	private Stato stato;

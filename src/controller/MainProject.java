@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import DAO.DAO;
 import DAO.DAOArriviTratteTappe;
 import DAO.DAOBigliettiAbbonamenti;
+import DAO.DAOStatoMezzo;
 import DAO.DAOTessera;
 import model.Abbonamento;
 import model.Arrivo;
@@ -31,6 +34,7 @@ import model.Tessera;
 import model.Tipo;
 import model.Tratta;
 import model.Utente;
+import model.Vidimazione;
 import utils.NoSuchElementInDBException;
 import utils.TimeUtil;
 
@@ -45,16 +49,21 @@ public class MainProject {
 	public static DAOArriviTratteTappe daoArriviTratteTappe= new DAOArriviTratteTappe();
 	public static DAOBigliettiAbbonamenti daoBigliettiAbbonamenti = new DAOBigliettiAbbonamenti();
 	public static DAOTessera daoTessera= new DAOTessera();
+	public static DAOStatoMezzo daoStatoMezzo = new DAOStatoMezzo(); 
 	public static void main(String[] args) {
 
 		
 		try {
-			
+		 	var m=(Mezzo)dao.getById("Mezzo", 1);
 			Emittente e = (Emittente)dao.getById("Emittente",2);
+	
 			
-
+			vidimaBiglietto(2, 1);
 			
 			
+			
+			
+//			log.info(""+numeroVidimatiSuMezzo( m, Timestamp.valueOf("1995-04-09 13:00:00"), Timestamp.valueOf("1995-04-09 14:13:00")));
 			
 		
 			
@@ -67,9 +76,8 @@ public class MainProject {
 //			 	var m=(Mezzo)dao.getById("Mezzo", 1);
 //			
 //			
-//			 PRIMO PARAGRAFO
-//		
-//			
+//			 PRIMA PARTE
+//
 //			//task ---> testa validità tessera e rinnova abbonamento se scaduta
 //			log.info(""+daoTessera.testValiditaTessera((Tessera)dao.getById("Tessera", 2)));
 //			log.info(""+daoTessera.testValiditaTessera((Tessera)dao.getById("Tessera", 5)));
@@ -93,10 +101,13 @@ public class MainProject {
 //			
 //					));
 //			
-//			
-//			
+//				SECONDA PARTE
+//				
+//				daoStatoMezzo.modificaStatoMezzo(1);
+//				vidimaBiglietto(1, 1);
+//				log.info(""+numeroVidimatiSuMezzo( m, Timestamp.valueOf("1995-04-09 13:00:00"), Timestamp.valueOf("1995-04-09 14:13:00")));
 //			 
-//			 	TERZO PARAGRAFO
+//			 	TERZA PARTE
 //			 
 //				numero passaggi per tappa
 //			 	log.info("passaggi mezzo 1 per tappa a1: "+ passaggiPerTappa(m, (Tappa)dao.getById("Tappa", 1)));
@@ -201,26 +212,7 @@ public class MainProject {
 		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:30:00"));
 }	
 	
-	
-//	TASK 1
-	
-	//task ---> crea biglietto controllando abbonamento tessera (validità tessera è annuale) ---->TODO
-	
-	
-	//task ---> ottenere biglietti/abbonamenti emessi in intervallo temporale e per punto di emissione
-	
-	
-	
-	
-	//task ---> verifica validità abbonamenti dato il mnumero di tessera utente
-	
-	
-//	TASK 2
-	
-	
-	
-	
-	
+
 //	TASK 3
 	
 	//task ---> quante volte un mezzo passa per una tappa
@@ -277,4 +269,61 @@ public class MainProject {
 		
 		
 	}
+
+
+	
+	//IL RAGAZZO DELLE ICONE
+	
+	//parte vidimazione
+	//check del biglietto pasasto con update del biglietto in lista e db
+	
+	/*
+	 * prende id biglietto id e id mezzo m 
+	 * 
+	 * */
+	public static void vidimaBiglietto(int id, int m) throws NoSuchElementInDBException {
+		Biglietto b = (Biglietto) dao.getById("Biglietto", id);
+			if (b.isVidimato()) {
+				log.info("il biglietto è già stato vidimato, non fare il tirchio e spulcia i soldi per comprarne uno nuovo");
+			}else {
+				b.setVidimato(true);
+				log.info("biglietto accettato");
+	
+				dao.merge(b);
+						
+						//set della nuova vidimazione
+						Vidimazione bigliettoVidimato = new Vidimazione();
+						bigliettoVidimato.setBiglietto(b);
+						Timestamp dataVidimazione = new Timestamp(System.currentTimeMillis());
+						bigliettoVidimato.setData(dataVidimazione);
+						var mezzo = (Mezzo) dao.getById("Mezzo", m);
+						bigliettoVidimato.setMezzo(mezzo);
+						
+						//set del biglietto nella lista vidimazioni e nel db
+						dao.merge(bigliettoVidimato);
+					}		
+			}
+			
+	
+	
+	//metodo per ottenere quante vidimazioni sono avvenute su determinato mezzo
+	public static int numeroVidimatiSuMezzo(Mezzo m, Timestamp start, Timestamp end) {
+		List<Vidimazione> list=null;
+		
+		EntityManager em= dao.getEntityManager();
+		
+		em.getTransaction().begin();
+		
+		list=em.createNamedQuery("vidimazioniPerMezzo&PerIntervalloTempo").getResultList();
+		
+		
+		em.getTransaction().commit();
+		
+		return list.size();
+
+	}
+	
+
+
+
 }
