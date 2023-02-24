@@ -13,10 +13,15 @@ import org.slf4j.LoggerFactory;
 
 import DAO.DAO;
 import DAO.UtilArriviTratteTappe;
+import model.Abbonamento;
 import model.Arrivo;
+import model.Attivo;
+import model.Biglietto;
 import model.Composizione;
+import model.Distributore;
 import model.Emittente;
 import model.Mezzo;
+import model.Periodo;
 import model.Rivenditore;
 import model.Stato;
 import model.Tappa;
@@ -41,10 +46,12 @@ public class MainProject {
 		
 		try {
 
-			 
+			
+		
+
+			
 //			 PRESENTAZIONE FUNZIONALITA'
 //			 
-//				popolaDB();
 //				
 //			 	var tr= (Tratta) dao.getById("Tratta", 2);
 //			 	var m=(Mezzo)dao.getById("Mezzo", 1);
@@ -72,12 +79,32 @@ public class MainProject {
 	public static void popolaDB() throws NoSuchElementInDBException, Exception{ //fa quello che dice il suo nome
 		
 
-			 
+//		creazioni utenti, tessere, rivenditori, biglietti	 
+		
 			  dao.create(new Utente("Carlo", "Rossi", "ghjkl"));
+			  dao.create(new Rivenditore());
+				dao.create(new Distributore(Attivo.FUORI_SERVIZIO));
+				dao.create(new Distributore(Attivo.IN_SERVIZIO));
+				
+				dao.create(new Utente("Pina", "Pipina", "pipipi"));
+				dao.create(new Utente("Carmelo", "Koko", "kokokokoko"));
+				dao.create(new Utente("Uomo", "Cunigghio", "BUNNYMEN2023"));
+				
+				dao.create(new Tessera(Timestamp.valueOf("2022-12-25 00:00:00"), Timestamp.valueOf("2022-12-25 00:00:00"),(Emittente) dao.getById("Emittente", 1), (Utente) dao.getById("Utente", 1) ));
+			
+				dao.create(new Biglietto((Emittente) dao.getById("Emittente", 2), (Utente)dao.getById("Utente", 5), Timestamp.valueOf("2023-01-15 11:11:11"), false));
+				dao.create(new Biglietto((Emittente) dao.getById("Emittente", 2), (Utente)dao.getById("Utente", 5), Timestamp.valueOf("2023-01-15 11:20:11"), false));
 			  Emittente e = new Rivenditore();
 			  dao.create(new Tessera(Timestamp.valueOf("2020-12-25 10:00:00"), Timestamp.valueOf("2021-12-25 10:00:00"), e , new Utente("Carmnelino", "c", "asdfghjkl")));	
 			  
-			  
+			  //altri biglietti
+			  for(int i=0; i<4; i++) {
+					dao.create(new Biglietto((Emittente) dao.getById("Emittente", 2), (Utente)dao.getById("Utente", 4), Timestamp.valueOf("2023-0"+(i+1)+"-0"+(i+5) +" 11:20:11"), false));
+					dao.create(new Biglietto((Emittente) dao.getById("Emittente", 2), (Utente)dao.getById("Utente", 3), Timestamp.valueOf("2023-0"+(i+1)+"-0"+(i+5) +" 11:20:11"), false));
+					dao.create(new Biglietto((Emittente) dao.getById("Emittente", 1), (Utente)dao.getById("Utente", 2), Timestamp.valueOf("2023-0"+(i+1)+"-0"+(i+5) +" 06:06:06"), false));
+					
+				}
+				dao.create(new Abbonamento(Timestamp.valueOf("2021-12-25 10:00:00"), (Emittente)dao.getById("Emittente", 1), (Tessera) dao.getById("Tessera", 1), Periodo.MENSILE,Timestamp.valueOf("2022-01-25 10:00:00") ));
 			  
 			  //creazione mezzo 1 con tre tratte
 			  var trenino = new Mezzo(Tipo.TRAM, 10, Stato.IN_SERVIZIO);
@@ -104,33 +131,48 @@ public class MainProject {
 			 for(int i=0; i<3; i++) aggiungiTappeATratta((Tratta)dao.getById("Tratta", i+1), t[i]);
 			  
 			 
-			 //creazione arrivi mezzo 1 
-			 String a = "1995-04-09";
-			 var m=(Mezzo)dao.getById("Mezzo", 1);
-				utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:00:00"));
-				utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:30:00"));
-				utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:40:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:00:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:05:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:10:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:15:00"));
-				utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:00:00"));
-				utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:10:00"));
-				utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:20:00"));
-				utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:32:00"));
-				utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:40:00"));
-				utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:00:00"));
-				utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:31:00"));
-				utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:40:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:00:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:06:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:08:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:10:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:12:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:20:00"));
-				utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:30:00"));
+			 
 				
 	}
+	
+public static void	popolaDBArrivi() throws Exception {
+	//creazione arrivi mezzo 1 
+	 String a = "1995-04-09";
+	 var m=(Mezzo)dao.getById("Mezzo", 1);
+		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:00:00"));
+		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:30:00"));
+		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:40:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:00:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:05:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:10:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:15:00"));
+		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:00:00"));
+		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:10:00"));
+		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:20:00"));
+		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:32:00"));
+		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:40:00"));
+		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:00:00"));
+		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:31:00"));
+		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:40:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:00:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:06:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:08:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:10:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:12:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:20:00"));
+		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:30:00"));
+}	
+	//task ---> crea biglietto controllando abbonamento tessera (validità tessera è annuale)
+	
+	//task ---> ottenere biglietti emessi in intervallo temporale e per punto di emissione
+	
+	//task ---> verifica validità abbonamenti dato il mnumero di tessera utente
+	
+	
+	
+	
+	
+	
 	
 	//task ---> quante volte un mezzo passa per una tappa
 	public static int passaggiPerTappa(Mezzo m, Tappa t) {//tutti i passaggi di m per t
