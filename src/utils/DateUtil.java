@@ -1,6 +1,7 @@
 package utils;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +34,15 @@ public interface DateUtil {
 	         }  
     	
     }
+    
+    public static Timestamp addDaysTimestamp(Timestamp ts, int nDays) {
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(ts);
+    	cal.add(Calendar.DAY_OF_YEAR, nDays);
+    	return new Timestamp(cal.getTime().getTime());
+
+    }
+    
     
     
 }

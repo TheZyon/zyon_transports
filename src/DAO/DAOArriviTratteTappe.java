@@ -16,7 +16,7 @@ import model.Tappa;
 import model.Tratta;
 import utils.SuccessivoMod;
 
-public class UtilArriviTratteTappe extends DAO<Arrivo> {
+public class DAOArriviTratteTappe extends DAO<Arrivo> {
 
 
 	static Logger log= MainProject.log; 

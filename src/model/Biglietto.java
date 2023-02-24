@@ -10,11 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="biglietto")
+@NamedQuery(name="bigliettiPerEmittente&TempoEmissione",
+query="SELECT b FROM Biglietto b WHERE b.emittente = :e AND b.data_erogazione BETWEEN :d1 AND :d2 ORDER BY b.data_erogazione")
 public class Biglietto {
 
 	@Id

@@ -12,12 +12,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+import utils.DateUtil;
+
 @Entity
 @Table(name="abbonamento")
+@NamedQuery(name="abbonamentoPerEmittente&TempoEmissione",
+query = "SELECT a FROM Abbonamento a WHERE a.emittente = :e AND a.data_erogazione BETWEEN :d1 AND :d2 ORDER BY a.data_erogazione")
 public class Abbonamento {
 
 	@Id
@@ -47,14 +52,16 @@ public class Abbonamento {
 	public Abbonamento() {}
 
 
-	public Abbonamento(Timestamp data_erogazione, Emittente emittente, Tessera tessera, Periodo periodo,
-			Timestamp data_scadenza) {
+	public Abbonamento(Timestamp data_erogazione, Emittente emittente, Tessera tessera, Periodo periodo) {
 		super();
 		this.data_erogazione = data_erogazione;
 		this.emittente = emittente;
 		this.tessera = tessera;
 		this.periodo = periodo;
-		this.data_scadenza = data_scadenza;
+		
+		if(periodo.equals(Periodo.SETTIMANALE)) {this.data_scadenza = DateUtil.addDaysTimestamp(data_erogazione, 7);}
+		else if(periodo.equals(Periodo.MENSILE)) {this.data_scadenza =DateUtil.addDaysTimestamp(data_erogazione, 30); }
+		
 	}
 
 

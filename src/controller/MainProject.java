@@ -12,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import DAO.DAO;
-import DAO.UtilArriviTratteTappe;
+import DAO.DAOArriviTratteTappe;
+import DAO.DAOBigliettiAbbonamenti;
+import DAO.DAOTessera;
 import model.Abbonamento;
 import model.Arrivo;
 import model.Attivo;
@@ -40,23 +42,59 @@ public class MainProject {
 	public static Logger log = LoggerFactory.getLogger(MainProject.class);
 
 	public static DAO dao = new DAO();
-	public static UtilArriviTratteTappe utilArrivi= new UtilArriviTratteTappe();
+	public static DAOArriviTratteTappe daoArriviTratteTappe= new DAOArriviTratteTappe();
+	public static DAOBigliettiAbbonamenti daoBigliettiAbbonamenti = new DAOBigliettiAbbonamenti();
+	public static DAOTessera daoTessera= new DAOTessera();
 	public static void main(String[] args) {
 
 		
 		try {
+			
+			Emittente e = (Emittente)dao.getById("Emittente",2);
+			
 
 			
+			
+			
 		
-
+			
+			
 			
 //			 PRESENTAZIONE FUNZIONALITA'
 //			 
 //				
 //			 	var tr= (Tratta) dao.getById("Tratta", 2);
 //			 	var m=(Mezzo)dao.getById("Mezzo", 1);
-//			 
-//			 
+//			
+//			
+//			 PRIMO PARAGRAFO
+//		
+//			
+//			//task ---> testa validità tessera e rinnova abbonamento se scaduta
+//			log.info(""+daoTessera.testValiditaTessera((Tessera)dao.getById("Tessera", 2)));
+//			log.info(""+daoTessera.testValiditaTessera((Tessera)dao.getById("Tessera", 5)));
+//			daoTessera.rinnovoTessera((Tessera)dao.getById("Tessera", 4));
+//			
+//			//task ---> ottenere biglietti/abbonamenti emessi in intervallo temporale e per punto di emissione
+//		
+//			daoBigliettiAbbonamenti.getBigliettiByEmittenteAndTimeInterval(e, Timestamp.valueOf("2023-01-15 11:11:11"), Timestamp.valueOf("2023-01-15 11:21:1"))
+//			.forEach(b->log.info(b.toString()));;
+//		
+//			daoBigliettiAbbonamenti.getAbbonamentiByEmittenteAndTimeInterval(e, Timestamp.valueOf("2022-04-10 10:00:00"), Timestamp.valueOf("2022-05-10 10:05:01"))
+//			.forEach(a->log.info(a.toString()));
+//
+//			//task ---> verifica validità abbonamenti dato il numero di tessera utente 
+//			
+//			daoBigliettiAbbonamenti.validitaAbbonamentiTessera((Tessera) dao.getById("Tessera", 5))
+//			.forEach(pair -> 
+//			log.info(
+//			"id: " +((Pair<Integer, Boolean>) pair).getKey() + 
+//			"; valido: "+ ((Pair<Integer, Boolean>) pair).getValue()
+//			
+//					));
+//			
+//			
+//			
 //			 
 //			 	TERZO PARAGRAFO
 //			 
@@ -90,12 +128,12 @@ public class MainProject {
 				dao.create(new Utente("Carmelo", "Koko", "kokokokoko"));
 				dao.create(new Utente("Uomo", "Cunigghio", "BUNNYMEN2023"));
 				
-				dao.create(new Tessera(Timestamp.valueOf("2022-12-25 00:00:00"), Timestamp.valueOf("2022-12-25 00:00:00"),(Emittente) dao.getById("Emittente", 1), (Utente) dao.getById("Utente", 1) ));
+				dao.create(new Tessera(Timestamp.valueOf("2022-12-25 00:00:00"),(Emittente) dao.getById("Emittente", 1), (Utente) dao.getById("Utente", 1) ));
 			
 				dao.create(new Biglietto((Emittente) dao.getById("Emittente", 2), (Utente)dao.getById("Utente", 5), Timestamp.valueOf("2023-01-15 11:11:11"), false));
 				dao.create(new Biglietto((Emittente) dao.getById("Emittente", 2), (Utente)dao.getById("Utente", 5), Timestamp.valueOf("2023-01-15 11:20:11"), false));
 			  Emittente e = new Rivenditore();
-			  dao.create(new Tessera(Timestamp.valueOf("2020-12-25 10:00:00"), Timestamp.valueOf("2021-12-25 10:00:00"), e , new Utente("Carmnelino", "c", "asdfghjkl")));	
+			  dao.create(new Tessera(Timestamp.valueOf("2020-12-25 10:00:00"), e , new Utente("Carmnelino", "c", "asdfghjkl")));	
 			  
 			  //altri biglietti
 			  for(int i=0; i<4; i++) {
@@ -104,7 +142,7 @@ public class MainProject {
 					dao.create(new Biglietto((Emittente) dao.getById("Emittente", 1), (Utente)dao.getById("Utente", 2), Timestamp.valueOf("2023-0"+(i+1)+"-0"+(i+5) +" 06:06:06"), false));
 					
 				}
-				dao.create(new Abbonamento(Timestamp.valueOf("2021-12-25 10:00:00"), (Emittente)dao.getById("Emittente", 1), (Tessera) dao.getById("Tessera", 1), Periodo.MENSILE,Timestamp.valueOf("2022-01-25 10:00:00") ));
+				dao.create(new Abbonamento(Timestamp.valueOf("2021-12-25 10:00:00"), (Emittente)dao.getById("Emittente", 1), (Tessera) dao.getById("Tessera", 1), Periodo.MENSILE ));
 			  
 			  //creazione mezzo 1 con tre tratte
 			  var trenino = new Mezzo(Tipo.TRAM, 10, Stato.IN_SERVIZIO);
@@ -135,44 +173,55 @@ public class MainProject {
 				
 	}
 	
-public static void	popolaDBArrivi() throws Exception {
+	public static void	popolaDBArrivi() throws Exception {
 	//creazione arrivi mezzo 1 
 	 String a = "1995-04-09";
 	 var m=(Mezzo)dao.getById("Mezzo", 1);
-		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:00:00"));
-		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:30:00"));
-		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 10:40:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:00:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:05:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:10:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 11:15:00"));
-		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:00:00"));
-		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:10:00"));
-		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:20:00"));
-		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:32:00"));
-		utilArrivi.createArrivo(m,3,Timestamp.valueOf(a+" 12:40:00"));
-		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:00:00"));
-		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:31:00"));
-		utilArrivi.createArrivo(m,1,Timestamp.valueOf(a+" 13:40:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:00:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:06:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:08:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:10:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:12:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:20:00"));
-		utilArrivi.createArrivo(m,2,Timestamp.valueOf(a+" 14:30:00"));
+		daoArriviTratteTappe.createArrivo(m,1,Timestamp.valueOf(a+" 10:00:00"));
+		daoArriviTratteTappe.createArrivo(m,1,Timestamp.valueOf(a+" 10:30:00"));
+		daoArriviTratteTappe.createArrivo(m,1,Timestamp.valueOf(a+" 10:40:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 11:00:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 11:05:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 11:10:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 11:15:00"));
+		daoArriviTratteTappe.createArrivo(m,3,Timestamp.valueOf(a+" 12:00:00"));
+		daoArriviTratteTappe.createArrivo(m,3,Timestamp.valueOf(a+" 12:10:00"));
+		daoArriviTratteTappe.createArrivo(m,3,Timestamp.valueOf(a+" 12:20:00"));
+		daoArriviTratteTappe.createArrivo(m,3,Timestamp.valueOf(a+" 12:32:00"));
+		daoArriviTratteTappe.createArrivo(m,3,Timestamp.valueOf(a+" 12:40:00"));
+		daoArriviTratteTappe.createArrivo(m,1,Timestamp.valueOf(a+" 13:00:00"));
+		daoArriviTratteTappe.createArrivo(m,1,Timestamp.valueOf(a+" 13:31:00"));
+		daoArriviTratteTappe.createArrivo(m,1,Timestamp.valueOf(a+" 13:40:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:00:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:06:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:08:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:10:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:12:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:20:00"));
+		daoArriviTratteTappe.createArrivo(m,2,Timestamp.valueOf(a+" 14:30:00"));
 }	
-	//task ---> crea biglietto controllando abbonamento tessera (validità tessera è annuale)
 	
-	//task ---> ottenere biglietti emessi in intervallo temporale e per punto di emissione
+	
+//	TASK 1
+	
+	//task ---> crea biglietto controllando abbonamento tessera (validità tessera è annuale) ---->TODO
+	
+	
+	//task ---> ottenere biglietti/abbonamenti emessi in intervallo temporale e per punto di emissione
+	
+	
+	
 	
 	//task ---> verifica validità abbonamenti dato il mnumero di tessera utente
 	
 	
+//	TASK 2
 	
 	
 	
 	
+	
+//	TASK 3
 	
 	//task ---> quante volte un mezzo passa per una tappa
 	public static int passaggiPerTappa(Mezzo m, Tappa t) {//tutti i passaggi di m per t
@@ -183,7 +232,7 @@ public static void	popolaDBArrivi() throws Exception {
 	}
 	public static int passaggiPerTappa(Mezzo m, Tappa t, Timestamp start, Timestamp end) { 
 		//passaggiPerTappa tra inizio e fine
-		return utilArrivi.getArriviByMezzoAndTimeConstraint(m, start, end).stream()
+		return daoArriviTratteTappe.getArriviByMezzoAndTimeConstraint(m, start, end).stream()
 				.filter(a->a.getTappa().getId()==t.getId())
 				.collect(Collectors.toList())
 				.size();	
@@ -198,20 +247,20 @@ public static void	popolaDBArrivi() throws Exception {
 	public static List<Pair<Integer, Time>> tempoEffettivoMezzoTratta(Mezzo m, Tratta t) throws Exception {
 		
 		//1. 
-		List<List<Arrivo>> percorsi=utilArrivi.getPercorsiEffettiviMezzoTratta(m,t);
+		List<List<Arrivo>> percorsi=daoArriviTratteTappe.getPercorsiEffettiviMezzoTratta(m,t);
 		//2.
 		return percorsi.stream()
-		.map(percorso->Pair.of(percorsi.indexOf(percorso)+1, TimeUtil.millisToTime(utilArrivi.tempoPercorso(percorso))))
+		.map(percorso->Pair.of(percorsi.indexOf(percorso)+1, TimeUtil.millisToTime(daoArriviTratteTappe.tempoPercorso(percorso))))
 		.collect(Collectors.toList());
 		
 	}
 	public static List<Pair<Integer, Time>> tempoEffettivoMezzoTratta(Mezzo m, Tratta t,Timestamp start, Timestamp end) throws Exception {
 		
 		//1. 
-		List<List<Arrivo>> percorsi=utilArrivi.getPercorsiEffettiviMezzoTratta(m,t, start, end);
+		List<List<Arrivo>> percorsi=daoArriviTratteTappe.getPercorsiEffettiviMezzoTratta(m,t, start, end);
 		//2.
 		return percorsi.stream()
-				.map(percorso->Pair.of(percorsi.indexOf(percorso)+1, TimeUtil.millisToTime(utilArrivi.tempoPercorso(percorso))))
+				.map(percorso->Pair.of(percorsi.indexOf(percorso)+1, TimeUtil.millisToTime(daoArriviTratteTappe.tempoPercorso(percorso))))
 				.collect(Collectors.toList());
 		
 	}

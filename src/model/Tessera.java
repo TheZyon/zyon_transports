@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import utils.DateUtil;
+
 
 /* Lorenzo
  * 1. Completare Tessera con mapping *-1 su Emittente (attenzione a completare Emittente con la lista delle tessere) 
@@ -71,10 +73,10 @@ public class Tessera {
 	
 	public Tessera() {}
 
-	public Tessera(Timestamp data_erogazione, Timestamp data_scadenza,Emittente emittente,  Utente utente) {
+	public Tessera(Timestamp data_erogazione,Emittente emittente,  Utente utente) {
 		super();
 		this.data_erogazione = data_erogazione;
-		this.data_scadenza = data_scadenza;
+		this.data_scadenza = DateUtil.addDaysTimestamp(data_erogazione, 365);
 		this.utente = utente;
 		this.emittente=emittente;
 	}
@@ -125,6 +127,11 @@ public class Tessera {
 
 	public void setConvalide(List<ConvalidaTessera> convalide) {
 		this.convalide = convalide;
+	}
+
+	
+	public List<Abbonamento> getAbbonamenti() {
+		return abbonamenti;
 	}
 
 	@Override
