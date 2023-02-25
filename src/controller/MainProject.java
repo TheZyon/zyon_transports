@@ -58,7 +58,8 @@ public class MainProject {
 			Emittente e = (Emittente)dao.getById("Emittente",2);
 	
 			
-			vidimaBiglietto(2, 1);
+			 
+			
 			
 			
 			
@@ -271,7 +272,6 @@ public class MainProject {
 	}
 
 
-	
 	//IL RAGAZZO DELLE ICONE
 	
 	//parte vidimazione
@@ -314,7 +314,10 @@ public class MainProject {
 		
 		em.getTransaction().begin();
 		
-		list=em.createNamedQuery("vidimazioniPerMezzo&PerIntervalloTempo").getResultList();
+		list=em.createNamedQuery("vidimazioniPerMezzo&PerIntervalloTempo")
+				.setParameter("m", m)
+				
+				.getResultList();
 		
 		
 		em.getTransaction().commit();
